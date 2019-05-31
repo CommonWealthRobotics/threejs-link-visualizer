@@ -1,0 +1,86 @@
+solid v3d.csg
+  facet normal 0.0 1.0 0.0
+    outer loop
+      vertex 2.5 0.0 27.5
+      vertex 2.5 0.0 22.5
+      vertex -2.5 0.0 22.5
+    endloop
+  endfacet
+  facet normal 0.0 1.0 0.0
+    outer loop
+      vertex 2.5 0.0 27.5
+      vertex -2.5 0.0 22.5
+      vertex -2.5 0.0 27.5
+    endloop
+  endfacet
+  facet normal -0.0 -1.0 0.0
+    outer loop
+      vertex 2.500000000000006 -93.0 27.5
+      vertex -2.499999999999994 -93.0 27.5
+      vertex -2.4999999999999947 -93.0 22.5
+    endloop
+  endfacet
+  facet normal -0.0 -1.0 0.0
+    outer loop
+      vertex 2.500000000000006 -93.0 27.5
+      vertex -2.4999999999999947 -93.0 22.5
+      vertex 2.5000000000000053 -93.0 22.5
+    endloop
+  endfacet
+  facet normal 1.0 6.685213911721373E-17 -1.7763568394002506E-16
+    outer loop
+      vertex 2.5 0.0 27.5
+      vertex 2.500000000000006 -93.0 27.5
+      vertex 2.5000000000000053 -93.0 22.5
+    endloop
+  endfacet
+  facet normal 1.0 6.685213911721373E-17 -1.7763568394002506E-16
+    outer loop
+      vertex 2.5 0.0 27.5
+      vertex 2.5000000000000053 -93.0 22.5
+      vertex 2.5 0.0 22.5
+    endloop
+  endfacet
+  facet normal -1.0 -5.730183352904034E-17 -0.0
+    outer loop
+      vertex -2.5 0.0 27.5
+      vertex -2.5 0.0 22.5
+      vertex -2.4999999999999947 -93.0 22.5
+    endloop
+  endfacet
+  facet normal -1.0 -5.730183352904034E-17 -0.0
+    outer loop
+      vertex -2.5 0.0 27.5
+      vertex -2.4999999999999947 -93.0 22.5
+      vertex -2.499999999999994 -93.0 27.5
+    endloop
+  endfacet
+  facet normal 0.0 0.0 1.0
+    outer loop
+      vertex 2.5 0.0 27.5
+      vertex -2.5 0.0 27.5
+      vertex -2.499999999999994 -93.0 27.5
+    endloop
+  endfacet
+  facet normal 0.0 0.0 1.0
+    outer loop
+      vertex 2.5 0.0 27.5
+      vertex -2.499999999999994 -93.0 27.5
+      vertex 2.500000000000006 -93.0 27.5
+    endloop
+  endfacet
+  facet normal 0.0 -0.0 -1.0
+    outer loop
+      vertex 2.5 0.0 22.5
+      vertex 2.5000000000000053 -93.0 22.5
+      vertex -2.4999999999999947 -93.0 22.5
+    endloop
+  endfacet
+  facet normal 0.0 -0.0 -1.0
+    outer loop
+      vertex 2.5 0.0 22.5
+      vertex -2.4999999999999947 -93.0 22.5
+      vertex -2.5 0.0 22.5
+    endloop
+  endfacet
+endsolid v3d.csg
