@@ -1,3 +1,10 @@
+/**
+  * @author Kai Salmen / https://kaisalmen.de
+  * Development repository: https://github.com/kaisalmen/WWOBJLoader
+  */
+
+'use strict';
+
 if ( THREE.OBJLoader2 === undefined ) { THREE.OBJLoader2 = {} }
 
 if ( THREE.LoaderSupport === undefined ) console.error( '"THREE.LoaderSupport" is not available. "THREE.OBJLoader2" requires it. Please include "LoaderSupport.js" in your HTML.' );
