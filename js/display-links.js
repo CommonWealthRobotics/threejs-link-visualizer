@@ -42,6 +42,7 @@ class webSocketHandler {
 		m.elements = transform;
 		//debugger;
 		this.robot.linkObjects[rlink].transform = m;
+		this.robot.linkObjects[rlink].update=true;
 		console.log("web-socket-handler: Position for link " + rlink + "! " + transform);
 
 	}
@@ -65,6 +66,7 @@ class robotLink {
 	index = null;
 	sceneobject = null;
 	transform = null;
+	update=false;
 	addToScene(mesh) {
 		console.log("display-links: Object " + this.index + " loaded");
 
@@ -110,8 +112,10 @@ class robot {
 		var lojb = this.linkObjects;
 		
 		for (var i = 0; i < lojb.length; i++) {
-			if (lojb[i].transform != null && lojb[i].sceneobject != null) {
+			if (lojb[i].transform != null && lojb[i].sceneobject != null && lojb[i].update) {
+				console.log("display-links: Updating matrix");
 				lojb[i].sceneobject.applyMatrix(lojb[i].transform);
+				lojb[i].update=false;
 			}
 		}
 	}
