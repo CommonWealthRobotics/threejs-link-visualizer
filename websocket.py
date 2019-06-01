@@ -1,5 +1,5 @@
 from simple_websocket_server import WebSocketServer, WebSocket
-
+from struct import *
 
 class SimpleEcho(WebSocket):
 	def handle(self):
@@ -8,6 +8,8 @@ class SimpleEcho(WebSocket):
 	
 	def connected(self):
 		print(self.address, 'connected')
+		self.send_message(pack("LLffffffffffffffff",1,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0))
+
 
 	def handle_close(self):
 		print(self.address, 'closed')
