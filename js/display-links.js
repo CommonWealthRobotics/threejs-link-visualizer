@@ -110,8 +110,9 @@ class robot {
 		var lojb = this.linkObjects;
 		
 		for (var i = 0; i < lojb.length; i++) {
-			if (lojb[i].transform != null && lojb[i].sceneObject != null) 
-				lojb[i].sceneObject.applyMatrix(lojb[i].transform);
+			if (lojb[i].transform != null && lojb[i].sceneobject != null) {
+				lojb[i].sceneobject.applyMatrix(lojb[i].transform);
+			}
 		}
 	}
 	};
