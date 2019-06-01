@@ -10,14 +10,14 @@ var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHei
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-camera.position.z = 20;
+camera.position.z = 200;
 
 // robot object
 class robotLink {
 	constructor(uri, index) {
-
 		var obj = this;
 		console.log("display-links: New Link '" + uri + "': " + index + "");
+		// Load OBJ and register our selves as callback
 		loader.load(uri, function (j) {
 			obj.addToScene(j);
 		});
@@ -31,29 +31,37 @@ class robotLink {
 
 		//debugger;
 		//debugger;
+		// Set a material
 		mesh.children[0].material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 		this.sceneobject = mesh;
 		//debugger;
+		// Add ourselves to the global scene.
 		scene.add(mesh);
 	}
 }
 
 class robot {
+	// an array of robotLinks for future reference.
 	linkObjects = [];
 	constructor(uri) {
 		var obj = this;
 		console.log("display-links: New Robot '" + uri + "'");
+		//kick off async request for robots file.
 		$.getJSON(uri, function (j) {
+			// register our function as a callback upon completion 
 			obj.loadCad(j);
 		});
 		this.linkObjects = [];
 	};
 	loadCad(json) {
+		// Request returned with valid JSON
 		var cad = json.robots[0].cad;
 		console.log("display-links: Loading " + cad.length + " CAD objects");
 
+		// Iterate over create robotLink Objects
 		for (var i = 0; i < cad.length; i++) {
 			console.log("display-links: Adding Link " + i);
+			// Pass URI and index to the constructor.
 			var robotlink = new robotLink(cad[i], i);
 			this.linkObjects.push(robotlink);
 
@@ -66,6 +74,8 @@ var myRobot = new robot("/robots");
 
 var updateLoop = function () {
 	requestAnimationFrame(updateLoop);
+				scene.rotation.x += 0.01;
+				scene.rotation.y += 0.01;
 	renderer.render(scene, camera);
 };
 
