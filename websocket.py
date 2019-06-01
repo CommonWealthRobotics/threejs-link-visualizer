@@ -8,7 +8,7 @@ class SimpleEcho(WebSocket):
 	
 	def connected(self):
 		print(self.address, 'connected')
-		self.send_message(pack("LLffffffffffffffff",1,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0))
+		self.send_message(pack("LLffffffffffffffff",1,1, 1.0,0.0,0.0,0.0, 0.0,1.0,0.0,0.0 ,0.0,0.0,1.0,0.0, 0.0,0.0,0.0,1.0))
 
 
 	def handle_close(self):
