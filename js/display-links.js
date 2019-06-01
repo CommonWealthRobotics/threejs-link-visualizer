@@ -18,7 +18,7 @@ class webSocketHandler {
 		console.log("web-socket-handler: Got Data!" + e.data);
 		// data is little endian
 		var dv = new DataView(e.data);
-		var command = dv.getUint32(0,true);
+		var command = dv.getUint32(0, true);
 		switch (command) {
 		case 1:
 			// Position Update
@@ -32,14 +32,17 @@ class webSocketHandler {
 		}
 	}
 	positionUpdate(dv) {
-		  
+
 		var transform = [];
-		var rlink = dv.getUint32(4,true)
-		for (var i=0; i<16; i++){
-			console.log((i+2)*4);
-			transform.push(dv.getFloat32((i+2)*4,true));
-		}
-		console.log("web-socket-handler: Position for link "+rlink+"! "+transform);
+		var rlink = dv.getUint32(4, true)
+			for (var i = 0; i < 16; i++) {
+				transform.push(dv.getFloat32((i + 2) * 4, true));
+			}
+			var m = new THREE.Matrix4();
+		m.elements = transform;
+		//debugger;
+		this.robot.linkObjects[rlink].transform = m;
+		console.log("web-socket-handler: Position for link " + rlink + "! " + transform);
 
 	}
 	dummyCommand(dv) {
@@ -61,6 +64,7 @@ class robotLink {
 	}
 	index = null;
 	sceneobject = null;
+	transform = null;
 	addToScene(mesh) {
 		console.log("display-links: Object " + this.index + " loaded");
 
@@ -102,45 +106,51 @@ class robot {
 
 		}
 	}
-	objectLoaded(event) {}
-};
+	applyTransforms() {
+		var lojb = this.linkObjects;
+		
+		for (var i = 0; i < lojb.length; i++) {
+			if (lojb[i].transform != null && lojb[i].sceneObject != null) 
+				lojb[i].sceneObject.applyMatrix(lojb[i].transform);
+		}
+	}
+	};
 
-// setup threejs
-var objexample = "# Group\ng v3d.csg\n\n# Vertices\nv 0.0 2.5 15.5\nv 0.0 -2.4999999999999996 15.5\nv 0.0 -2.5 10.5\nv 0.0 2.5 10.5\nv -32.0 2.5000000000000036 15.5\nv -32.0 2.500000000000004 10.5\nv -32.0 -2.4999999999999964 10.5\nv -32.0 -2.499999999999996 15.5\n\n# Faces\n\n# End Group v3d.csg\n";
-var scene = new THREE.Scene();
-//var loader = new THREE.STLLoader();
-var loader = new THREE.OBJLoader();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		var scene = new THREE.Scene();
+	//var loader = new THREE.STLLoader();
+	var loader = new THREE.OBJLoader();
+	var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-var renderer = new THREE.WebGLRenderer();
-const material = new THREE.MeshStandardMaterial();
+	var renderer = new THREE.WebGLRenderer();
+	const material = new THREE.MeshStandardMaterial();
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-camera.position.z = 200;
-var amblight = new THREE.AmbientLight(0x404040); // soft white light
-scene.background = new THREE.Color(0x8FBCD4);
-scene.add(amblight);
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+	camera.position.z = 200;
+	var amblight = new THREE.AmbientLight(0x404040); // soft white light
+	scene.background = new THREE.Color(0x8FBCD4);
+	scene.add(amblight);
 
-// Create a directional light
-const light = new THREE.DirectionalLight(0xffffff, 5.0);
+	// Create a directional light
+	const light = new THREE.DirectionalLight(0xffffff, 5.0);
 
-// move the light back and up a bit
-light.position.set(10, 10, 10);
+	// move the light back and up a bit
+	light.position.set(10, 10, 10);
 
-// remember to add the light to the scene
-scene.add(light);
+	// remember to add the light to the scene
+	scene.add(light);
 
-var myRobot = new robot("/robots");
-var wshandle = new webSocketHandler(myRobot, 'ws://127.0.0.1:8000');
+	var myRobot = new robot("/robots");
+	var wshandle = new webSocketHandler(myRobot, 'ws://127.0.0.1:8000');
 
-var updateLoop = function () {
-	requestAnimationFrame(updateLoop);
-	scene.rotation.x += 0.01;
-	scene.rotation.y += 0.01;
-	renderer.render(scene, camera);
-};
+	var updateLoop = function () {
+		myRobot.applyTransforms()
+		requestAnimationFrame(updateLoop);
+		scene.rotation.x += 0.01;
+		scene.rotation.y += 0.01;
+		renderer.render(scene, camera);
+	};
 
-// We do the async request to get the robots file.
+	// We do the async request to get the robots file.
 
-updateLoop();
+	updateLoop();
