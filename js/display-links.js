@@ -18,7 +18,7 @@ class webSocketHandler {
 		console.log("web-socket-handler: Got Data!" + e.data);
 		// data is little endian
 		var dv = new DataView(e.data);
-		var command = dv.getUint32(0, true);
+		var command = dv.getUint32(0);
 		switch (command) {
 		case 1:
 			// Position Update
@@ -34,9 +34,9 @@ class webSocketHandler {
 	positionUpdate(dv) {
 
 		var transform = [];
-		var rlink = dv.getUint32(4, true)
+		var rlink = dv.getUint32(4)
 			for (var i = 0; i < 16; i++) {
-				transform.push(dv.getFloat32((i + 2) * 4, true));
+				transform.push(dv.getFloat32((i + 2) * 4));
 			}
 			var m = new THREE.Matrix4();
 		m.elements = transform;
