@@ -8,9 +8,24 @@ var loader = new THREE.OBJLoader();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 var renderer = new THREE.WebGLRenderer();
+const material = new THREE.MeshStandardMaterial();
+
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 camera.position.z = 200;
+var amblight = new THREE.AmbientLight( 0x404040 ); // soft white light
+scene.background = new THREE.Color( 0x8FBCD4 );
+scene.add( amblight );
+
+  // Create a directional light
+  const light = new THREE.DirectionalLight( 0xffffff, 5.0 );
+
+  // move the light back and up a bit
+  light.position.set( 10, 10, 10 );
+
+  // remember to add the light to the scene
+  scene.add( light );
 
 // robot object
 class robotLink {
@@ -32,7 +47,7 @@ class robotLink {
 		//debugger;
 		//debugger;
 		// Set a material
-		mesh.children[0].material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+		//mesh.children[0].material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 		this.sceneobject = mesh;
 		//debugger;
 		// Add ourselves to the global scene.
