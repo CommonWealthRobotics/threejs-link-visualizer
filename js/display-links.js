@@ -42,8 +42,8 @@ class webSocketHandler {
 		m.elements = transform;
 		//debugger;
 		if (this.robot.linkObjects[rlink] != null) {
-			debugger;
-			this.robot.linkObjects[rlink].transform=m;
+
+			this.robot.linkObjects[rlink].transform = m;
 			this.robot.linkObjects[rlink].update = true;
 			console.log("web-socket-handler: Position for link " + rlink + "! " + transform);
 		}
