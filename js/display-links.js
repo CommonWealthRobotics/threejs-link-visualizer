@@ -116,7 +116,7 @@ class robot {
 		for (var i = 0; i < lojb.length; i++) {
 			if (lojb[i].transform != null && lojb[i].sceneobject != null && lojb[i].update) {
 				console.log("display-links: Updating matrix");
-				lojb[i].sceneobject.applyMatrix(lojb[i].transform);
+				lojb[i].sceneobject.matrixWorld=lojb[i].transform;
 				lojb[i].update = false;
 			}
 		}
@@ -148,10 +148,9 @@ light.position.set(10, 10, 10);
 scene.add(light);
 
 var myRobot = new robot("/robots");
+let wsuri = ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/robot/socket/MyTestRobot";
+var wshandle = new webSocketHandler(myRobot, wsuri);
 
-setTimeout(function () {
-	var wshandle = new webSocketHandler(myRobot, 'ws://127.0.0.1:8000');
-}, 1000);
 
 var updateLoop = function () {
 	myRobot.applyTransforms()
