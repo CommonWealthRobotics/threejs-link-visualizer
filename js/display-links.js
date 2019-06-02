@@ -114,10 +114,13 @@ class robot {
 		var lojb = this.linkObjects;
 
 		for (var i = 0; i < lojb.length; i++) {
-			if (lojb[i].transform != null && lojb[i].sceneobject != null && lojb[i].update) {
+			var l = lojb[i];
+			if (l.transform != null && l.sceneobject != null && l.update) {
 				console.log("display-links: Updating matrix");
-				lojb[i].sceneobject.matrixWorld=lojb[i].transform;
-				lojb[i].update = false;
+				if (l.sceneobject.matrixAutoUpdate != false)
+					l.sceneobject.matrixAutoUpdate = false;
+				l.sceneobject.matrix=lojb[i].transform;
+				l.update=false;
 			}
 		}
 	}
@@ -129,11 +132,15 @@ var loader = new THREE.OBJLoader();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 var renderer = new THREE.WebGLRenderer();
+
 const material = new THREE.MeshStandardMaterial();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-camera.position.z = 200;
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+camera.position.set(0, 0, 200);
+controls.addEventListener("change", () => renderer.render(scene, camera));
+controls.update();
 var amblight = new THREE.AmbientLight(0x404040); // soft white light
 scene.background = new THREE.Color(0x777777);
 scene.add(amblight);
@@ -151,12 +158,10 @@ var myRobot = new robot("/robots");
 let wsuri = ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/robot/socket/MyTestRobot";
 var wshandle = new webSocketHandler(myRobot, wsuri);
 
-
 var updateLoop = function () {
 	myRobot.applyTransforms()
 	requestAnimationFrame(updateLoop);
-	scene.rotation.x += 0.01;
-	scene.rotation.y += 0.01;
+	controls.update();
 	renderer.render(scene, camera);
 };
 
