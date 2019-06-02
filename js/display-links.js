@@ -16,7 +16,7 @@ class webSocketHandler {
 
 	handleData(e) {
 		console.log("web-socket-handler: Got Data!" + e.data);
-		// data is little endian
+		// data is big endian
 		var dv = new DataView(e.data);
 		var command = dv.getUint32(0);
 		switch (command) {
@@ -42,7 +42,7 @@ class webSocketHandler {
 		m.elements = transform;
 		//debugger;
 		if (this.robot.linkObjects[rlink] != null) {
-			this.robot.linkObjects[rlink].transform = m;
+			this.robot.linkObjects[rlink].applyMatrix(m);
 			this.robot.linkObjects[rlink].update = true;
 			console.log("web-socket-handler: Position for link " + rlink + "! " + transform);
 		}
