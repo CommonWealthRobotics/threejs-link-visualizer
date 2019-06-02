@@ -42,7 +42,8 @@ class webSocketHandler {
 		m.elements = transform;
 		//debugger;
 		if (this.robot.linkObjects[rlink] != null) {
-			this.robot.linkObjects[rlink].applyMatrix(m);
+			debugger;
+			this.robot.linkObjects[rlink].transform=m;
 			this.robot.linkObjects[rlink].update = true;
 			console.log("web-socket-handler: Position for link " + rlink + "! " + transform);
 		}
@@ -147,7 +148,10 @@ light.position.set(10, 10, 10);
 scene.add(light);
 
 var myRobot = new robot("/robots");
-var wshandle = new webSocketHandler(myRobot, 'ws://127.0.0.1:8000');
+
+setTimeout(function () {
+	var wshandle = new webSocketHandler(myRobot, 'ws://127.0.0.1:8000');
+}, 1000);
 
 var updateLoop = function () {
 	myRobot.applyTransforms()
